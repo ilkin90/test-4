@@ -22,9 +22,11 @@ export const timerSlice = createSlice({
       state.isRunning = false
       state.laps = []
     },
-    tick: state => {
-      state.time += 1
-    },
+    tick: (state) => {
+  if (state.time > 0) {
+    state.time -= 1 
+  }
+},
     setTime: (state, action) => {
       state.time = action.payload
     },
