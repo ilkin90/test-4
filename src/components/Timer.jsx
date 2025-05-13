@@ -7,26 +7,23 @@ const Timer = () => {
   const { time, isRunning } = useSelector(state => state.timer)
   const [input, setInput] = useState({ hour: 0, min: 0, sec: 0 })
 
-  
   useEffect(() => {
     let interval
     if (isRunning && time > 0) {
-      interval = setInterval(() => dispatch(tick()), 1000) 
+      interval = setInterval(() => dispatch(tick()), 1000)
     }
     if (time === 0 && isRunning) {
-      dispatch(pause()) 
+      dispatch(pause())
     }
-    return () => clearInterval(interval) 
+    return () => clearInterval(interval)
   }, [isRunning, time, dispatch])
 
- 
   const handleStart = () => {
     const totalSec = input.hour * 3600 + input.min * 60 + input.sec
-    dispatch(setTime(totalSec))  
-    dispatch(start()) 
+    dispatch(setTime(totalSec))
+    dispatch(start())
   }
 
-  
   const formatTime = (t) => {
     const h = Math.floor(t / 3600)
     const m = Math.floor((t % 3600) / 60)
@@ -51,4 +48,4 @@ const Timer = () => {
   )
 }
 
-export default Timer;
+export default Timer

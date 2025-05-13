@@ -1,33 +1,41 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const initialState = {
+  time: 0,
+  isRunning: false,
+  mode: 'stopwatch', 
+  laps: []
+}
+
 export const timerSlice = createSlice({
   name: 'timer',
-  initialState: {
-    time: 0,  
-    isRunning: false, 
-  },
+  initialState,
   reducers: {
+    start: state => {
+      state.isRunning = true
+    },
+    pause: state => {
+      state.isRunning = false
+    },
+    reset: state => {
+      state.time = 0
+      state.isRunning = false
+      state.laps = []
+    },
+    tick: state => {
+      state.time += 1
+    },
     setTime: (state, action) => {
       state.time = action.payload
     },
-    start: (state) => {
-      state.isRunning = true
+    addLap: state => {
+      state.laps.push(state.time)
     },
-    pause: (state) => {
-      state.isRunning = false
-    },
-    reset: (state) => {
-      state.time = 0
-      state.isRunning = false
-    },
-    tick: (state) => {
-      if (state.time > 0) {
-        state.time -= 1
-      }
+    setMode: (state, action) => {
+      state.mode = action.payload
     }
   }
 })
 
-export const { setTime, start, pause, reset, tick } = timerSlice.actions
-
+export const { start, pause, reset, tick, setTime, addLap, setMode } = timerSlice.actions
 export default timerSlice.reducer
