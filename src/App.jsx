@@ -1,24 +1,26 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Haqqinda from "./Haqqinda";
-import Elaqe from "./Elaqe";
-import IsNumuneleri from "./IsNumuneleri";
+import { useDispatch, useSelector } from 'react-redux'
+import { setMode } from './redux/timerslice'
+import Fulltime from './components/Fulltime'
+import Stopwatch from './components/Stopwatch'
+import Timer from './components/Timer'
 
-function App() {
+const App = () => {
+  const mode = useSelector(state => state.timer.mode)
+  const dispatch = useDispatch()
+
   return (
-    <>
-      <div className="Page">
-        <Link to="/haqqinda">Haqqında</Link>
-        <Link to="/isler">İş Nümunələri</Link>
-        <Link to="/elaqe">Əlaqə</Link>
+    <div style={{ textAlign: 'center', padding: '2rem' }}>
+      <div style={{ marginBottom: '1rem' }}>
+        <button onClick={() => dispatch(setMode('fulltime'))} className={mode === 'fulltime' ? 'active' : ''}>Fulltime</button>
+        <button onClick={() => dispatch(setMode('stopwatch'))} className={mode === 'stopwatch' ? 'active' : ''}>Stopwatch</button>
+        <button onClick={() => dispatch(setMode('timer'))} className={mode === 'timer' ? 'active' : ''}>Timer</button>
       </div>
 
-      <Routes>
-        <Route path="/haqqinda" element={<Haqqinda />} />
-        <Route path="/isler" element={<IsNumuneleri />} />
-        <Route path="/elaqe" element={<Elaqe />} />
-      </Routes>
-    </>
-  );
+      {mode === 'fulltime' && <Fulltime />}
+      {mode === 'stopwatch' && <Stopwatch />}
+      {mode === 'timer' && <Timer />}
+    </div>
+  )
 }
 
-export default App;
+export default App
